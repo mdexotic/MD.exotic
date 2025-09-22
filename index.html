@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MD Exotic — Детайлинг София</title>
+</head>
+<body>
+  <h1 id="hero-title">Експертен детайлинг — полиране, керамика, PPF</h1>
+  <p id="hero-subtitle">Премиум резултати за интериор и екстериор. -10% за нов клиент.</p>
+
+  <section id="pricing">
+    <h2>Цени</h2>
+    <ul>
+      <li id="price-one-step">Екстериор 1 стъпка</li>
+      <li id="price-two-step">Екстериор 2 стъпки</li>
+      <li id="price-ceramic-from">Керамика от</li>
+      <li id="price-wax-from">Вакса от</li>
+      <li id="price-headlights">Фарове</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <form name="contact" id="contact-form" method="POST"
+          data-netlify="true" netlify-honeypot="bot-field"
+          action="/thanks">
+      <input type="hidden" name="form-name" value="contact" />
+      <p style="display:none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+
+      <label>Име*<br><input name="name" required></label>
+      <label>Телефон*<br><input name="phone" required></label>
+      <label>Имейл<br><input type="email" name="email"></label>
+      <label>Съобщение*<br><textarea name="message" rows="5" required></textarea></label>
+      <button type="submit">Изпрати</button>
+    </form>
+    <div>
+      <p>Тел: <span id="phone-1">0988350902</span> / <span id="phone-2">0886688825</span></p>
+      <p>Имейл: <span id="email-text">info@mdexotic.com</span></p>
+      <p>Адрес: <span id="address-text">София, кв. Студентски град</span></p>
+      <p>Работно време: <span id="hours-text">Пн–Сб: 9:00–19:00</span></p>
+    </div>
+  </section>
+
+  <script src="/cms-apply.js"></script>
+</body>
+</html>

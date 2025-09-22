@@ -1,0 +1,54 @@
+
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - label: "Основни настройки"
+    name: "site"
+    files:
+      - label: "Сайт инфо"
+        name: "settings"
+        file: "content/site.json"
+        fields:
+          - {label: "Заглавие (Hero)", name: "hero_title", widget: "string"}
+          - {label: "Подзаглавие (Hero)", name: "hero_subtitle", widget: "text"}
+          - {label: "Телефон 1", name: "phone1", widget: "string"}
+          - {label: "Телефон 2", name: "phone2", widget: "string"}
+          - {label: "Имейл", name: "email", widget: "string"}
+          - {label: "Адрес", name: "address", widget: "string"}
+          - {label: "Работно време", name: "hours", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string"}
+          - {label: "TikTok URL", name: "tiktok", widget: "string"}
+  - label: "Цени"
+    name: "prices"
+    files:
+      - label: "Пакети и цени"
+        name: "price_list"
+        file: "content/prices.json"
+        fields:
+          - label: "Екстериор 1 стъпка"
+            name: "one_step"
+            widget: "object"
+            fields:
+              - {label: "Кола", name: "car", widget: "number"}
+              - {label: "Джип", name: "suv", widget: "number"}
+          - label: "Екстериор 2 стъпки"
+            name: "two_step"
+            widget: "object"
+            fields:
+              - {label: "Кола", name: "car", widget: "number"}
+              - {label: "Джип", name: "suv", widget: "number"}
+          - label: "Керамика — от"
+            name: "ceramic_from"
+            widget: "number"
+          - label: "Вакса — от"
+            name: "wax_from"
+            widget: "number"
+          - label: "Фарове (шлайф+полир+PPF)"
+            name: "headlights"
+            widget: "string"
+            default: "200–250"

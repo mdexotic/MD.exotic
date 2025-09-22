@@ -1,0 +1,13 @@
+{
+  "one_step": {
+    "car": 400,
+    "suv": 500
+  },
+  "two_step": {
+    "car": 600,
+    "suv": 800
+  },
+  "ceramic_from": 400,
+  "wax_from": 100,
+  "headlights": "200–250"
+}
