@@ -9,7 +9,7 @@
     <script>window.CMS_MANUAL_INIT = true;</script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-    <!-- Netlify Identity widget: нужно за приемане на покани/ресет на парола -->
+    <!-- Netlify Identity widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
@@ -21,20 +21,29 @@
         if (window.CMS) CMS.init({ config: { load_config_file: true } });
       });
 
-      // Помага при покана/ресет: след логин → към /admin
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on('login', () => {
-          window.location.href = '/admin/';
+      // Предпазител срещу безкрайно презареждане
+      (function () {
+        if (!window.netlifyIdentity) return;
+
+        // Ако user е вече логнат при init – не правим redirect (оставяме CMS да зареди)
+        window.netlifyIdentity.on('init', (user) => {
+          // по желание: console.log('init user?', !!user);
         });
-      }
+
+        // При току-що успешен login – еднократно връщаме към /admin/, после спираме
+        window.netlifyIdentity.on('login', () => {
+          if (!sessionStorage.getItem('cmsLoggedOnce')) {
+            sessionStorage.setItem('cmsLoggedOnce', '1');
+            // replace вместо href за да не правим доп. история
+            window.location.replace('/admin/');
+          }
+        });
+
+        // При logout – чистим флага
+        window.netlifyIdentity.on('logout', () => {
+          sessionStorage.removeItem('cmsLoggedOnce');
+        });
+      })();
     </script>
- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('login', () => {
-      window.location.href = '/admin/'; // винаги връща тук след login
-    });
-  }
-</script>
- </body>
+  </body>
 </html>
