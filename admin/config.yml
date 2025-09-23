@@ -2,6 +2,8 @@ backend:
   name: git-gateway
   branch: main
   auth_type: implicit
+  identity_url: https://mdexotic.com/.netlify/identity
+  gateway_url: https://mdexotic.com/.netlify/git
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
