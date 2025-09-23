@@ -1,54 +1,133 @@
-
 backend:
   name: git-gateway
   branch: main
+  auth_type: implicit
+  identity_url: https://friendly-crepe-569194.netlify.app/.netlify/identity
+  gateway_url: https://friendly-crepe-569194.netlify.app/.netlify/git
 
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+media_folder: "static/uploads"
+public_folder: "/uploads"
+publish_mode: editorial_workflow
 
 collections:
-  - label: "Основни настройки"
-    name: "site"
+  - name: "pages"
+    label: "Страници"
     files:
-      - label: "Сайт инфо"
-        name: "settings"
-        file: "content/site.json"
+      - file: "content/pages/index.md"
+        label: "Начало"
+        name: "home"
         fields:
-          - {label: "Заглавие (Hero)", name: "hero_title", widget: "string"}
-          - {label: "Подзаглавие (Hero)", name: "hero_subtitle", widget: "text"}
-          - {label: "Телефон 1", name: "phone1", widget: "string"}
-          - {label: "Телефон 2", name: "phone2", widget: "string"}
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - {label: "Hero Заглавие", name: "hero_title", widget: "string"}
+          - {label: "Hero Подзаглавие", name: "hero_subtitle", widget: "text"}
+          - {label: "Hero Фон", name: "hero_bg", widget: "image"}
+      - file: "content/pages/services.md"
+        label: "Услуги"
+        name: "services"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - label: "Услуги"
+            name: "items"
+            widget: "list"
+            fields:
+              - {label: "Заглавие", name: "title", widget: "string"}
+              - {label: "Описание", name: "desc", widget: "text"}
+              - {label: "Цена", name: "price", widget: "string", required: false}
+              - {label: "Снимка", name: "image", widget: "image", required: false}
+      - file: "content/pages/pricing.md"
+        label: "Цени / Пакети"
+        name: "pricing"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - label: "Пакети"
+            name: "packages"
+            widget: "list"
+            fields:
+              - {label: "Име", name: "name", widget: "string"}
+              - {label: "Какво включва", name: "features", widget: "list", field: {label: "Точка", name: "point", widget: "string"}}
+              - {label: "Цена", name: "price", widget: "string"}
+              - {label: "Най-популярен", name: "featured", widget: "boolean", default: false}
+      - file: "content/pages/gallery.md"
+        label: "Галерия"
+        name: "gallery"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - label: "Албуми"
+            name: "albums"
+            widget: "list"
+            fields:
+              - {label: "Заглавие", name: "title", widget: "string"}
+              - {label: "Снимки", name: "photos", widget: "list", field: {label: "Снимка", name: "image", widget: "image"}}
+      - file: "content/pages/about.md"
+        label: "За нас"
+        name: "about"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - {label: "Заглавие", name: "title", widget: "string"}
+          - {label: "Текст", name: "body", widget: "markdown"}
+          - {label: "Главно изображение", name: "image", widget: "image", required: false}
+      - file: "content/pages/team.md"
+        label: "Екип"
+        name: "team"
+        fields:
+          - label: "Членове"
+            name: "members"
+            widget: "list"
+            fields:
+              - {label: "Име", name: "name", widget: "string"}
+              - {label: "Позиция", name: "role", widget: "string"}
+              - {label: "Био", name: "bio", widget: "text", required: false}
+              - {label: "Снимка", name: "photo", widget: "image", required: false}
+      - file: "content/pages/faq.md"
+        label: "FAQ"
+        name: "faq"
+        fields:
+          - label: "Въпроси"
+            name: "items"
+            widget: "list"
+            fields:
+              - {label: "Въпрос", name: "q", widget: "string"}
+              - {label: "Отговор", name: "a", widget: "markdown"}
+      - file: "content/pages/contact.md"
+        label: "Контакти"
+        name: "contact"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "SEO Description", name: "seo_description", widget: "text"}
+          - {label: "Адрес", name: "address", widget: "text"}
+          - {label: "Телефон", name: "phone", widget: "string"}
           - {label: "Имейл", name: "email", widget: "string"}
-          - {label: "Адрес", name: "address", widget: "string"}
-          - {label: "Работно време", name: "hours", widget: "string"}
-          - {label: "Instagram URL", name: "instagram", widget: "string"}
-          - {label: "TikTok URL", name: "tiktok", widget: "string"}
-  - label: "Цени"
-    name: "prices"
+          - {label: "Работно време", name: "hours", widget: "list", field: {label: "Ред", name: "row", widget: "string"}}
+          - {label: "Google Map Embed", name: "map_embed", widget: "text", required: false}
+
+  - name: "settings"
+    label: "Настройки"
     files:
-      - label: "Пакети и цени"
-        name: "price_list"
-        file: "content/prices.json"
+      - file: "content/settings/global.md"
+        label: "Глобални"
+        name: "global"
         fields:
-          - label: "Екстериор 1 стъпка"
-            name: "one_step"
+          - {label: "Лого", name: "logo", widget: "image", required: false}
+          - {label: "Телефон", name: "phone", widget: "string", required: false}
+          - {label: "Имейл", name: "email", widget: "string", required: false}
+          - {label: "Адрес", name: "address", widget: "text", required: false}
+          - label: "Социални мрежи"
+            name: "social"
             widget: "object"
             fields:
-              - {label: "Кола", name: "car", widget: "number"}
-              - {label: "Джип", name: "suv", widget: "number"}
-          - label: "Екстериор 2 стъпки"
-            name: "two_step"
-            widget: "object"
-            fields:
-              - {label: "Кола", name: "car", widget: "number"}
-              - {label: "Джип", name: "suv", widget: "number"}
-          - label: "Керамика — от"
-            name: "ceramic_from"
-            widget: "number"
-          - label: "Вакса — от"
-            name: "wax_from"
-            widget: "number"
-          - label: "Фарове (шлайф+полир+PPF)"
-            name: "headlights"
-            widget: "string"
-            default: "200–250"
+              - {label: "Instagram", name: "instagram", widget: "string", required: false}
+              - {label: "Facebook", name: "facebook", widget: "string", required: false}
+              - {label: "TikTok", name: "tiktok", widget: "string", required: false}
+      - file: "content/settings/seo.md"
+        label: "SEO по подразбиране"
+        name: "seo"
+        fields:
+          - {label: "Site Name", name: "site_name", widget: "string"}
+          - {label: "Default Title", name: "default_title", widget: "string"}
+          - {label: "Default Description", name: "default_description", widget: "text"}
+          - {label: "Default OG Image", name: "default_og", widget: "image", required: false}
