@@ -28,5 +28,13 @@
         });
       }
     </script>
-  </body>
+ <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('login', () => {
+      window.location.href = '/admin/'; // винаги връща тук след login
+    });
+  }
+</script>
+ </body>
 </html>
