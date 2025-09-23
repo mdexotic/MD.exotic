@@ -4,10 +4,20 @@
     <meta charset="utf-8">
     <title>MD Exotic Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Зареждаме Decap CMS -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <!-- Decap CMS -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </head>
   <body>
-    <!-- Панелът ще се визуализира автоматично тук -->
+    <div id="nc-root"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Стартираме CMS ръчно, след като DOM е готов
+        if (window.CMS) {
+          CMS.init({ config: { load_config_file: true } });
+        }
+      });
+    </script>
   </body>
 </html>
