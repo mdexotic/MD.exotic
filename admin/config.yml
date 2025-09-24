@@ -8,263 +8,38 @@ public_folder: "/uploads"
 publish_mode: editorial_workflow
 
 collections:
-  - name: "pages"
-    label: "Страници"
+  - name: "raw"
+    label: "Съдържание (RAW JSON)"
     files:
-      - file: "content/pages/index.md"
-        label: "Начало"
-        name: "home"
+      - file: "content/site.json"
+        label: "content/site.json"
+        name: "content_site"
+        format: "json"
+        editor: { preview: false }
         fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
+          - { label: "JSON", name: "body", widget: "code", default_language: "json", output_code_only: true }
 
-          - {label: "Hero Заглавие", name: "hero_title", widget: "string"}
-          - {label: "Hero Подзаглавие", name: "hero_subtitle", widget: "text", required: false}
-          - {label: "Hero Фон (снимка/видео)", name: "hero_bg", widget: "image", required: false}
-          - label: "Hero бутони"
-            name: "hero_cta"
-            widget: "list"
-            fields:
-              - {label: "Текст", name: "label", widget: "string"}
-              - {label: "Линк", name: "href", widget: "string"}
-              - {label: "Стил (primary/secondary)", name: "variant", widget: "select", options: ["primary","secondary"], default: "primary"}
-
-          - label: "Карти/Фийчъри"
-            name: "features"
-            widget: "list"
-            fields:
-              - {label: "Икона/Снимка", name: "icon", widget: "image", required: false}
-              - {label: "Заглавие", name: "title", widget: "string"}
-              - {label: "Текст", name: "text", widget: "text", required: false}
-
-          - label: "Ревюта (локално за началото)"
-            name: "reviews"
-            widget: "list"
-            fields:
-              - {label: "Име", name: "name", widget: "string"}
-              - {label: "Текст", name: "text", widget: "text"}
-              - {label: "Снимка", name: "photo", widget: "image", required: false}
-              - {label: "Оценка (1-5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, required: false}
-
-          - label: "Секция „Преди/След“"
-            name: "before_after"
-            widget: "object"
-            required: false
-            fields:
-              - {label: "Заглавие", name: "title", widget: "string", required: false}
-              - {label: "Преди (снимка)", name: "before", widget: "image", required: false}
-              - {label: "След (снимка)", name: "after", widget: "image", required: false}
-
-      - file: "content/pages/services.md"
-        label: "Услуги"
-        name: "services"
+      - file: "content/prices.json"
+        label: "content/prices.json"
+        name: "content_prices"
+        format: "json"
+        editor: { preview: false }
         fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
-          - label: "Услуги"
-            name: "items"
-            widget: "list"
-            fields:
-              - {label: "Заглавие", name: "title", widget: "string"}
-              - {label: "Кратко описание", name: "desc", widget: "text", required: false}
-              - {label: "Детайлен текст", name: "body", widget: "markdown", required: false}
-              - {label: "Снимка", name: "image", widget: "image", required: false}
-              - {label: "Цена/от (текст)", name: "price", widget: "string", required: false}
+          - { label: "JSON", name: "body", widget: "code", default_language: "json", output_code_only: true }
 
-      - file: "content/pages/pricing.md"
-        label: "Цени / Пакети"
-        name: "pricing"
+      # ако сайтът чете копията в корена – редактираш и тях тук
+      - file: "site.json"
+        label: "site.json (root)"
+        name: "root_site"
+        format: "json"
+        editor: { preview: false }
         fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
-          - label: "Пакети"
-            name: "packages"
-            widget: "list"
-            fields:
-              - {label: "Име на пакет", name: "name", widget: "string"}
-              - {label: "Цена (текст)", name: "price", widget: "string"}
-              - {label: "Подзаглавие (напр. За кой е)", name: "subtitle", widget: "string", required: false}
-              - {label: "Най-популярен", name: "featured", widget: "boolean", default: false}
-              - label: "Какво включва"
-                name: "features"
-                widget: "list"
-                field: {label: "Точка", name: "point", widget: "string"}
+          - { label: "JSON", name: "body", widget: "code", default_language: "json", output_code_only: true }
 
-      - file: "content/pages/gallery.md"
-        label: "Галерия"
-        name: "gallery"
+      - file: "prices.json"
+        label: "prices.json (root)"
+        name: "root_prices"
+        format: "json"
+        editor: { preview: false }
         fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
-          - label: "Албуми"
-            name: "albums"
-            widget: "list"
-            fields:
-              - {label: "Заглавие", name: "title", widget: "string"}
-              - label: "Снимки"
-                name: "photos"
-                widget: "list"
-                field: {label: "Снимка", name: "image", widget: "image"}
-
-      - file: "content/pages/about.md"
-        label: "За нас"
-        name: "about"
-        fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
-          - {label: "Заглавие", name: "title", widget: "string"}
-          - {label: "Текст (markdown)", name: "body", widget: "markdown"}
-          - {label: "Главно изображение", name: "image", widget: "image", required: false}
-
-      - file: "content/pages/team.md"
-        label: "Екип"
-        name: "team"
-        fields:
-          - label: "Членове"
-            name: "members"
-            widget: "list"
-            fields:
-              - {label: "Име", name: "name", widget: "string"}
-              - {label: "Позиция", name: "role", widget: "string"}
-              - {label: "Кратка био", name: "bio", widget: "text", required: false}
-              - {label: "Снимка", name: "photo", widget: "image", required: false}
-              - {label: "Instagram", name: "instagram", widget: "string", required: false}
-
-      - file: "content/pages/faq.md"
-        label: "FAQ"
-        name: "faq"
-        fields:
-          - label: "Въпроси"
-            name: "items"
-            widget: "list"
-            fields:
-              - {label: "Въпрос", name: "q", widget: "string"}
-              - {label: "Отговор", name: "a", widget: "markdown"}
-
-      - file: "content/pages/contact.md"
-        label: "Контакти"
-        name: "contact"
-        fields:
-          - {label: "SEO Title", name: "seo_title", widget: "string", required: false}
-          - {label: "SEO Description", name: "seo_description", widget: "text", required: false}
-          - {label: "Адрес", name: "address", widget: "text"}
-          - {label: "Телефон", name: "phone", widget: "string"}
-          - {label: "Имейл", name: "email", widget: "string"}
-          - label: "Работно време"
-            name: "hours"
-            widget: "list"
-            field: {label: "Ред", name: "row", widget: "string"}
-          - {label: "Google Map Embed", name: "map_embed", widget: "text", required: false}
-
-  - name: "settings"
-    label: "Настройки"
-    files:
-      - file: "content/settings/global.md"
-        label: "Глобални"
-        name: "global"
-        fields:
-          - {label: "Лого (основно)", name: "logo", widget: "image", required: false}
-          - {label: "Лого (светло)", name: "logo_light", widget: "image", required: false}
-          - {label: "Лого (тъмно)", name: "logo_dark", widget: "image", required: false}
-          - {label: "Телефон", name: "phone", widget: "string", required: false}
-          - {label: "Имейл", name: "email", widget: "string", required: false}
-          - {label: "Адрес", name: "address", widget: "text", required: false}
-          - label: "Социални мрежи"
-            name: "social"
-            widget: "object"
-            fields:
-              - {label: "Instagram", name: "instagram", widget: "string", required: false}
-              - {label: "Facebook", name: "facebook", widget: "string", required: false}
-              - {label: "TikTok", name: "tiktok", widget: "string", required: false}
-              - {label: "YouTube", name: "youtube", widget: "string", required: false}
-          - label: "Footer"
-            name: "footer"
-            widget: "object"
-            fields:
-              - {label: "Текст в долната част", name: "text", widget: "text", required: false}
-              - {label: "Авторско право", name: "copyright", widget: "string", required: false}
-
-      - file: "content/settings/theme.md"
-        label: "Тема (визия)"
-        name: "theme"
-        fields:
-          - label: "Цветове"
-            name: "colors"
-            widget: "object"
-            fields:
-              - {label: "Основен (primary)", name: "primary", widget: "string", hint: "HEX, напр. #ff4433"}
-              - {label: "Втори (secondary)", name: "secondary", widget: "string", required: false}
-              - {label: "Фон (background)", name: "background", widget: "string", required: false}
-              - {label: "Текст (foreground)", name: "foreground", widget: "string", required: false}
-          - label: "Типография"
-            name: "typography"
-            widget: "object"
-            fields:
-              - {label: "Шрифт заглавия (CSS family)", name: "heading_font", widget: "string", required: false}
-              - {label: "Шрифт текст (CSS family)", name: "body_font", widget: "string", required: false}
-              - {label: "Размер база (px)", name: "base_size", widget: "number", value_type: "int", min: 12, max: 22, default: 16}
-          - label: "Лейаут"
-            name: "layout"
-            widget: "object"
-            fields:
-              - {label: "Макс. ширина (px)", name: "container_max", widget: "number", value_type: "int", default: 1280}
-              - {label: "Радиус на ъгли", name: "radius", widget: "select", options: ["none","sm","md","lg","xl","2xl"], default: "xl"}
-              - {label: "Сянка на карти", name: "shadow", widget: "select", options: ["none","sm","md","lg"], default: "md"}
-          - label: "Хедър/Навигация"
-            name: "header"
-            widget: "object"
-            fields:
-              - {label: "Закрепен хедър (sticky)", name: "sticky", widget: "boolean", default: true}
-              - {label: "Прозрачен хедър върху hero", name: "transparent", widget: "boolean", default: true}
-
-      - file: "content/settings/seo.md"
-        label: "SEO по подразбиране"
-        name: "seo"
-        fields:
-          - {label: "Site Name", name: "site_name", widget: "string"}
-          - {label: "Default Title", name: "default_title", widget: "string"}
-          - {label: "Default Description", name: "default_description", widget: "text"}
-          - {label: "Default OG Image", name: "default_og", widget: "image", required: false}
-
-      - file: "content/settings/navigation.md"
-        label: "Навигация (менюта)"
-        name: "navigation"
-        fields:
-          - label: "Главно меню"
-            name: "main"
-            widget: "list"
-            fields:
-              - {label: "Етикет", name: "label", widget: "string"}
-              - {label: "Линк", name: "href", widget: "string"}
-              - {label: "Външен линк?", name: "external", widget: "boolean", default: false}
-          - label: "Footer меню"
-            name: "footer"
-            widget: "list"
-            fields:
-              - {label: "Етикет", name: "label", widget: "string"}
-              - {label: "Линк", name: "href", widget: "string"}
-
-      - file: "content/settings/banners.md"
-        label: "Банери / Известия"
-        name: "banners"
-        fields:
-          - label: "Активен банер"
-            name: "active"
-            widget: "boolean"
-            default: false
-          - {label: "Текст", name: "text", widget: "string", required: false}
-          - {label: "Линк (по избор)", name: "href", widget: "string", required: false}
-          - {label: "Тип", name: "variant", widget: "select", options: ["info","success","warning","danger"], default: "info"}
-
-      - file: "content/settings/testimonials.md"
-        label: "Ревюта (глобално)"
-        name: "testimonials"
-        fields:
-          - label: "Ревюта"
-            name: "items"
-            widget: "list"
-            fields:
-              - {label: "Име", name: "name", widget: "string"}
-              - {label: "Текст", name: "text", widget: "text"}
-              - {label: "Снимка", name: "photo", widget: "image", required: false}
-              - {label: "Оценка (1-5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, required: false}
+          - { label: "JSON", name: "body", widget: "code", default_language: "json", output_code_only: true }
