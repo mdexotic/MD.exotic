@@ -1,49 +1,147 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>MD Exotic Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Decap CMS -->
     <script>window.CMS_MANUAL_INIT = true;</script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 
     <!-- Netlify Identity widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Базови стилове за прегледа (по-четим) -->
+    <style id="cms-preview-base">
+      :root {
+        --primary: #ff4433;
+        --bg: #ffffff;
+        --fg: #111111;
+        --radius: 16px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background: var(--bg); color: var(--fg); }
+      .container { max-width: 1100px; margin: 32px auto; padding: 0 16px; }
+      .hero { border-radius: var(--radius); padding: 40px; background: #f7f7f7; margin-bottom: 24px; }
+      .btn { display:inline-block; padding:10px 16px; border-radius:10px; text-decoration:none; border:1px solid var(--primary); color:#fff; background:var(--primary); margin-right:8px; }
+      .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+      .card { border:1px solid #e5e5e5; border-radius:var(--radius); padding:16px; background:#fff; }
+      .title { font-size:32px; margin:0 0 8px; }
+      .subtitle { color:#555; margin:0 0 16px; }
+      img { max-width: 100%; height: auto; display:block; border-radius:12px; }
+      h2 { margin-top: 24px; }
+    </style>
   </head>
   <body>
     <div id="nc-root"></div>
 
     <script>
-      // Стартираме CMS след като DOM е готов
+      // 1) Инициализация на CMS
       document.addEventListener('DOMContentLoaded', function () {
         if (window.CMS) CMS.init({ config: { load_config_file: true } });
       });
 
-      // Предпазител срещу безкрайно презареждане
+      // 2) След login връщаме към /admin/ (с предпазител срещу цикъл)
       (function () {
         if (!window.netlifyIdentity) return;
-
-        // Ако user е вече логнат при init – не правим redirect (оставяме CMS да зареди)
-        window.netlifyIdentity.on('init', (user) => {
-          // по желание: console.log('init user?', !!user);
-        });
-
-        // При току-що успешен login – еднократно връщаме към /admin/, после спираме
         window.netlifyIdentity.on('login', () => {
           if (!sessionStorage.getItem('cmsLoggedOnce')) {
             sessionStorage.setItem('cmsLoggedOnce', '1');
-            // replace вместо href за да не правим доп. история
             window.location.replace('/admin/');
           }
         });
-
-        // При logout – чистим флага
         window.netlifyIdentity.on('logout', () => {
           sessionStorage.removeItem('cmsLoggedOnce');
         });
       })();
+
+      // 3) Live Preview – зареждаме тема от settings/theme.md (ако има)
+      function applyThemeFromEntry(entry) {
+        try {
+          const theme = entry.getIn(['data']).toJS();
+          // очакваме структура content/settings/theme.md
+          const colors = theme.colors || {};
+          const layout = theme.layout || {};
+          const root = document.documentElement;
+          if (colors.primary) root.style.setProperty('--primary', colors.primary);
+          if (colors.background) root.style.setProperty('--bg', colors.background);
+          if (colors.foreground) root.style.setProperty('--fg', colors.foreground);
+          if (layout.radius) root.style.setProperty('--radius', layout.radius === 'none' ? '0px'
+            : layout.radius === 'sm' ? '6px'
+            : layout.radius === 'md' ? '10px'
+            : layout.radius === 'lg' ? '14px'
+            : layout.radius === 'xl' ? '18px'
+            : '22px'); // 2xl
+        } catch (e) {}
+      }
+
+      // Регистрираме Preview Template за „Начало“
+      CMS.registerPreviewTemplate('home', ({ entry }) => {
+        const data = entry.getIn(['data']).toJS();
+        const heroTitle = data.hero_title || 'Заглавие';
+        const heroSubtitle = data.hero_subtitle || '';
+        const ctas = (data.hero_cta || []).map(b => `<a class="btn" href="${b.href||'#'}">${b.label||'CTA'}</a>`).join(' ');
+        const features = (data.features || []).map(c => `
+          <div class="card">
+            ${c.icon ? `<img src="${c.icon}" alt="">` : ''}
+            <h3>${c.title||''}</h3>
+            <p>${c.text||''}</p>
+          </div>`).join('');
+
+        // опит за тема (ако редактираш settings/theme.md в друг таб, CMS няма state; това е базов пример)
+        // В преглед на една страница няма достъп до други файлове, така че оставяме базова тема
+
+        return `
+          <div class="container">
+            <section class="hero">
+              <h1 class="title">${heroTitle}</h1>
+              <p class="subtitle">${heroSubtitle}</p>
+              <div>${ctas}</div>
+            </section>
+            ${(data.features && data.features.length) ? `
+              <h2>Акценти</h2>
+              <div class="cards">${features}</div>` : ``}
+          </div>
+        `;
+      });
+
+      // Можеш да добавиш още preview templates по аналогия:
+      CMS.registerPreviewTemplate('services', ({ entry }) => {
+        const d = entry.getIn(['data']).toJS();
+        const items = (d.items||[]).map(s=>`
+          <div class="card">
+            ${s.image?`<img src="${s.image}" alt="">`:''}
+            <h3>${s.title||''}</h3>
+            <p>${s.desc||''}</p>
+            ${s.price?`<strong>${s.price}</strong>`:''}
+          </div>`).join('');
+        return `<div class="container"><h1 class="title">Услуги</h1><div class="cards">${items}</div></div>`;
+      });
+
+      CMS.registerPreviewTemplate('pricing', ({ entry }) => {
+        const d = entry.getIn(['data']).toJS();
+        const items = (d.packages||[]).map(p=>`
+          <div class="card">
+            <h3>${p.name||''}</h3>
+            <p>${p.subtitle||''}</p>
+            <strong>${p.price||''}</strong>
+            <ul>${(p.features||[]).map(x=>`<li>${x.point}</li>`).join('')}</ul>
+          </div>`).join('');
+        return `<div class="container"><h1 class="title">Цени / Пакети</h1><div class="cards">${items}</div></div>`;
+      });
+
+      CMS.registerPreviewTemplate('gallery', ({ entry }) => {
+        const d = entry.getIn(['data']).toJS();
+        const albums = (d.albums||[]).map(a=>`
+          <div class="card">
+            <h3>${a.title||''}</h3>
+            <div class="cards">
+              ${(a.photos||[]).map(p=>`<img src="${p.image}" alt="">`).join('')}
+            </div>
+          </div>`).join('');
+        return `<div class="container"><h1 class="title">Галерия</h1>${albums}</div>`;
+      });
     </script>
   </body>
 </html>
