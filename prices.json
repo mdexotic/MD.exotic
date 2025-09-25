@@ -1,0 +1,25 @@
+{
+  "exterior_one_step": {
+    "car": 400,
+    "suv": 500
+  },
+  "exterior_two_step": {
+    "car": 600,
+    "suv": 800
+  },
+  "ceramic": {
+    "from": 400,
+    "years_options": [
+      1,
+      3,
+      5
+    ],
+    "note": "Цена зависи от трайността и състоянието на лака."
+  },
+  "wax_from": 100,
+  "headlights_combo": {
+    "label": "Фарове — шлайфане + полиране + PPF (гаранция)",
+    "range": "200–250"
+  },
+  "promo_discount_percent": 20
+}
