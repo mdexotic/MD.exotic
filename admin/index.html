@@ -4,9 +4,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MD Exotic — Admin</title>
-  <script src="https://unpkg.com/netlify-identity-widget@1.9.2/build/netlify-identity-widget.min.js"></script>
+  <!-- Netlify Identity widget (задължително за login/signup/recovery) -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+  <!-- Netlify CMS UI -->
   <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
+
+  <script>
+    // Redirect обратно към /admin след login/signup/recovery
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', (user) => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
+          window.netlifyIdentity.on('signup', () => {
+            document.location.href = '/admin/';
+          });
+          window.netlifyIdentity.on('recover', () => {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>
