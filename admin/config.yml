@@ -6,12 +6,14 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
+  # --- Основни настройки, контакти, SEO ---
   - label: "Основни настройки"
     name: "site"
     files:
       - label: "Сайт инфо (Hero, контакти, соц.)"
         name: "settings"
         file: "content/site.json"
+        format: json
         fields:
           - { label: "Заглавие (Hero)", name: "hero_title", widget: "string" }
           - { label: "Подзаглавие (Hero)", name: "hero_subtitle", widget: "text" }
@@ -23,20 +25,24 @@ collections:
           - { label: "Работно време", name: "hours", widget: "string" }
           - { label: "Instagram URL", name: "instagram", widget: "string" }
           - { label: "TikTok URL", name: "tiktok", widget: "string" }
+
       - label: "SEO (Meta)"
         name: "seo"
         file: "content/seo.json"
+        format: json
         fields:
           - { label: "Meta Title", name: "title", widget: "string" }
           - { label: "Meta Description", name: "description", widget: "text" }
           - { label: "OG Image", name: "og_image", widget: "image", required: false }
 
+  # --- Цени ---
   - label: "Цени"
     name: "prices"
     files:
       - label: "Пакети и цени"
         name: "price_list"
         file: "content/prices.json"
+        format: json
         fields:
           - label: "Екстериор 1 стъпка"
             name: "exterior_one_step"
@@ -44,33 +50,41 @@ collections:
             fields:
               - { label: "Кола (лв)", name: "car", widget: "number" }
               - { label: "Джип (лв)", name: "suv", widget: "number" }
+
           - label: "Екстериор 2 стъпки"
             name: "exterior_two_step"
             widget: "object"
             fields:
               - { label: "Кола (лв)", name: "car", widget: "number" }
               - { label: "Джип (лв)", name: "suv", widget: "number" }
+
           - label: "Керамика"
             name: "ceramic"
             widget: "object"
             fields:
               - { label: "От (лв)", name: "from", widget: "number" }
-              - { label: "Опции години", name: "years_options", widget: "list", field: {label: "Години", name: "year", widget: "number"} }
+              - { label: "Опции години", name: "years_options", widget: "list", field: { label: "Години", name: "year", widget: "number" } }
               - { label: "Бележка", name: "note", widget: "text", required: false }
+
           - { label: "Вакса — от (лв)", name: "wax_from", widget: "number" }
+
           - label: "Фарове (шлайф+полир+PPF)"
             name: "headlights_combo"
             widget: "object"
             fields:
               - { label: "Етикет", name: "label", widget: "string" }
               - { label: "Диапазон (лв)", name: "range", widget: "string" }
+
           - { label: "Промо отстъпка (%)", name: "promo_discount_percent", widget: "number", min: 0, max: 100, default: 20 }
 
+  # --- Услуги (папка с JSON записи) ---
   - label: "Услуги"
     name: "services"
     folder: "content/services"
     create: true
     slug: "{{slug}}"
+    format: json
+    extension: "json"
     fields:
       - { label: "Заглавие", name: "title", widget: "string" }
       - { label: "Кратко описание", name: "excerpt", widget: "string", required: false }
@@ -79,46 +93,64 @@ collections:
       - { label: "Включва (списък)", name: "includes", widget: "list", required: false }
       - { label: "Снимка", name: "image", widget: "image", required: false }
 
+  # --- Процес (един JSON файл) ---
   - label: "Процес"
     name: "process"
-    file: "content/process.json"
-    fields:
+    files:
       - label: "Стъпки"
-        name: "steps"
-        widget: "list"
+        name: "steps_file"
+        file: "content/process.json"
+        format: json
         fields:
-          - { label: "Заглавие", name: "title", widget: "string" }
-          - { label: "Текст", name: "text", widget: "text" }
+          - label: "Стъпки"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Заглавие", name: "title", widget: "string" }
+              - { label: "Текст", name: "text", widget: "text" }
 
+  # --- Галерия (папка с JSON записи) ---
   - label: "Галерия"
     name: "gallery"
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
+    format: json
+    extension: "json"
     fields:
       - { label: "Заглавие", name: "title", widget: "string" }
       - { label: "Снимка", name: "image", widget: "image" }
       - { label: "Описание (по избор)", name: "caption", widget: "string", required: false }
 
+  # --- Отзиви (един JSON файл) ---
   - label: "Отзиви"
     name: "reviews"
-    file: "content/reviews.json"
-    fields:
+    files:
       - label: "Отзиви"
-        name: "items"
-        widget: "list"
+        name: "reviews_file"
+        file: "content/reviews.json"
+        format: json
         fields:
-          - { label: "Име", name: "name", widget: "string" }
-          - { label: "Текст", name: "text", widget: "text" }
-          - { label: "Рейтинг (1–5)", name: "rating", widget: "number", min: 1, max: 5, default: 5 }
+          - label: "Отзиви"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Име", name: "name", widget: "string" }
+              - { label: "Текст", name: "text", widget: "text" }
+              - { label: "Рейтинг (1–5)", name: "rating", widget: "number", min: 1, max: 5, default: 5 }
 
+  # --- FAQ (един JSON файл) ---
   - label: "FAQ"
     name: "faq"
-    file: "content/faq.json"
-    fields:
+    files:
       - label: "Въпроси"
-        name: "items"
-        widget: "list"
+        name: "faq_file"
+        file: "content/faq.json"
+        format: json
         fields:
-          - { label: "Въпрос", name: "q", widget: "string" }
-          - { label: "Отговор", name: "a", widget: "text" }
+          - label: "Въпроси"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Въпрос", name: "q", widget: "string" }
+              - { label: "Отговор", name: "a", widget: "text" }
