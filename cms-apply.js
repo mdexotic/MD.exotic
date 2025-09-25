@@ -84,4 +84,16 @@
   }catch(e){
     console.warn("CMS data load error:", e);
   }
+})(); // WhatsApp линк към phone1 (ако има цифри)
+if (site.phone1) {
+  const digits1 = site.phone1.replace(/\D/g, "");
+  const wa = document.getElementById("whatsapp-link");
+  if (wa && digits1) wa.setAttribute("href", "https://wa.me/359" + digits1.replace(/^0+/, ""));
+}
+// Горен бутон „Обади се“ и плаващия бутон -> към phone1
+(function(){
+  const digits1 = (site.phone1 || "").replace(/\D/g, "");
+  const tel = digits1 ? "tel:" + digits1 : "#";
+  document.getElementById("top-call")?.setAttribute("href", tel);
+  document.getElementById("float-call")?.setAttribute("href", tel);
 })();
