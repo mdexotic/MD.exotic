@@ -1,0 +1,124 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - label: "Основни настройки"
+    name: "site"
+    files:
+      - label: "Сайт инфо (Hero, контакти, соц.)"
+        name: "settings"
+        file: "content/site.json"
+        fields:
+          - { label: "Заглавие (Hero)", name: "hero_title", widget: "string" }
+          - { label: "Подзаглавие (Hero)", name: "hero_subtitle", widget: "text" }
+          - { label: "Промо %", name: "promo_percent", widget: "number", default: 20, min: 0, max: 100 }
+          - { label: "Телефон 1", name: "phone1", widget: "string" }
+          - { label: "Телефон 2", name: "phone2", widget: "string" }
+          - { label: "Имейл", name: "email", widget: "string" }
+          - { label: "Адрес", name: "address", widget: "string" }
+          - { label: "Работно време", name: "hours", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "TikTok URL", name: "tiktok", widget: "string" }
+      - label: "SEO (Meta)"
+        name: "seo"
+        file: "content/seo.json"
+        fields:
+          - { label: "Meta Title", name: "title", widget: "string" }
+          - { label: "Meta Description", name: "description", widget: "text" }
+          - { label: "OG Image", name: "og_image", widget: "image", required: false }
+
+  - label: "Цени"
+    name: "prices"
+    files:
+      - label: "Пакети и цени"
+        name: "price_list"
+        file: "content/prices.json"
+        fields:
+          - label: "Екстериор 1 стъпка"
+            name: "exterior_one_step"
+            widget: "object"
+            fields:
+              - { label: "Кола (лв)", name: "car", widget: "number" }
+              - { label: "Джип (лв)", name: "suv", widget: "number" }
+          - label: "Екстериор 2 стъпки"
+            name: "exterior_two_step"
+            widget: "object"
+            fields:
+              - { label: "Кола (лв)", name: "car", widget: "number" }
+              - { label: "Джип (лв)", name: "suv", widget: "number" }
+          - label: "Керамика"
+            name: "ceramic"
+            widget: "object"
+            fields:
+              - { label: "От (лв)", name: "from", widget: "number" }
+              - { label: "Опции години", name: "years_options", widget: "list", field: {label: "Години", name: "year", widget: "number"} }
+              - { label: "Бележка", name: "note", widget: "text", required: false }
+          - { label: "Вакса — от (лв)", name: "wax_from", widget: "number" }
+          - label: "Фарове (шлайф+полир+PPF)"
+            name: "headlights_combo"
+            widget: "object"
+            fields:
+              - { label: "Етикет", name: "label", widget: "string" }
+              - { label: "Диапазон (лв)", name: "range", widget: "string" }
+          - { label: "Промо отстъпка (%)", name: "promo_discount_percent", widget: "number", min: 0, max: 100, default: 20 }
+
+  - label: "Услуги"
+    name: "services"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Заглавие", name: "title", widget: "string" }
+      - { label: "Кратко описание", name: "excerpt", widget: "string", required: false }
+      - { label: "Описание", name: "body", widget: "text", required: false }
+      - { label: "Цена от (лв)", name: "price_from", widget: "number", required: false }
+      - { label: "Включва (списък)", name: "includes", widget: "list", required: false }
+      - { label: "Снимка", name: "image", widget: "image", required: false }
+
+  - label: "Процес"
+    name: "process"
+    file: "content/process.json"
+    fields:
+      - label: "Стъпки"
+        name: "steps"
+        widget: "list"
+        fields:
+          - { label: "Заглавие", name: "title", widget: "string" }
+          - { label: "Текст", name: "text", widget: "text" }
+
+  - label: "Галерия"
+    name: "gallery"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Заглавие", name: "title", widget: "string" }
+      - { label: "Снимка", name: "image", widget: "image" }
+      - { label: "Описание (по избор)", name: "caption", widget: "string", required: false }
+
+  - label: "Отзиви"
+    name: "reviews"
+    file: "content/reviews.json"
+    fields:
+      - label: "Отзиви"
+        name: "items"
+        widget: "list"
+        fields:
+          - { label: "Име", name: "name", widget: "string" }
+          - { label: "Текст", name: "text", widget: "text" }
+          - { label: "Рейтинг (1–5)", name: "rating", widget: "number", min: 1, max: 5, default: 5 }
+
+  - label: "FAQ"
+    name: "faq"
+    file: "content/faq.json"
+    fields:
+      - label: "Въпроси"
+        name: "items"
+        widget: "list"
+        fields:
+          - { label: "Въпрос", name: "q", widget: "string" }
+          - { label: "Отговор", name: "a", widget: "text" }
