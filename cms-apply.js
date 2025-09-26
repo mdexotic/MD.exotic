@@ -81,6 +81,21 @@
       fl.innerHTML = faq.items.map(q => `<details class="q"><summary>${q.q}</summary><div>${q.a}</div></details>`).join("");
     }
 
+  
+    // === GALLERY ===
+    try{
+      const g = await (await fetch('/content/gallery.json?v=' + Date.now(), {cache:'no-store'})).json();
+      const galleryEl = document.querySelector('.gallery');
+      if (galleryEl && g?.items?.length){
+        galleryEl.innerHTML = g.items.map(it => `
+          <figure>
+            <img loading="lazy" src="${it.image}" alt="">
+            ${it.caption ? `<figcaption>${it.caption}</figcaption>` : ''}
+          </figure>
+        `).join('');
+      }
+    }catch(_){}
+
   }catch(e){
     console.warn("CMS data load error:", e);
   }

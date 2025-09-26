@@ -110,19 +110,21 @@ collections:
               - { label: "Текст", name: "text", widget: "text" }
 
   # --- Галерия (папка с JSON записи) ---
+  
   - label: "Галерия"
     name: "gallery"
-    folder: "content/gallery"
-    create: true
-    slug: "{{slug}}"
-    format: json
-    extension: "json"
-    fields:
-      - { label: "Заглавие", name: "title", widget: "string" }
-      - { label: "Снимка", name: "image", widget: "image" }
-      - { label: "Описание (по избор)", name: "caption", widget: "string", required: false }
-
-  # --- Отзиви (един JSON файл) ---
+    files:
+      - label: "Снимки"
+        name: "gallery_file"
+        file: "content/gallery.json"
+        format: json
+        fields:
+          - label: "Елементи"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Снимка", name: "image", widget: "image" }
+              - { label: "Описание (по избор)", name: "caption", widget: "string", required: false }
   - label: "Отзиви"
     name: "reviews"
     files:
