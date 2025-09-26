@@ -148,14 +148,19 @@
       <p class="lead">Изпрати запитване или се обади за консултация.</p>
       <div class="contact-grid">
         <div class="contact-card">
-          <form id="contact-form" action="https://formspree.io/f/your-id" method="POST">
-            <label>Име*<br><input name="name" placeholder="Вашето име"></label>
-            <label>Телефон*<br><input name="phone" placeholder="+359..."></label>
-            <label>Имейл<br><input type="email" name="email" placeholder="you@example.com"></label>
-            <label>Съобщение<br><textarea name="message" rows="5" placeholder="Модел кола, желана услуга, предпочитани дни..."></textarea></label>
-            <button class="btn" type="submit">Изпрати</button>
-            <div class="small">* Можете и да ни пишете в WhatsApp.</div>
-          </form>
+          
+<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html">
+  <input type="hidden" name="form-name" value="contact" />
+  <p style="display:none;"><label>Не попълвай:<input name="bot-field" /></label></p>
+  <div class="grid">
+    <label>Име <input type="text" name="name" required /></label>
+    <label>Имейл <input type="email" name="email" required /></label>
+    <label>Телефон <input type="tel" name="phone" required /></label>
+  </div>
+  <label>Съобщение <textarea name="message" rows="5" required></textarea></label>
+  <button type="submit" class="btn">Изпрати</button>
+</form>
+
         </div>
         <div class="contact-card">
           <p><strong>Телефони:</strong>
@@ -192,5 +197,21 @@
   <script src="script.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="/cms-apply.js?v=7"></script>
+<script>
+(function(){
+  const form = document.querySelector('form[name="contact"]');
+  if(!form) return;
+  function encode(data){ return Object.keys(data).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(data[k])).join('&'); }
+  form.addEventListener('submit', function(e){
+    if (form.getAttribute('data-netlify') !== 'true') return;
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data['form-name'] = 'contact';
+    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: encode(data) })
+      .then(()=> window.location='/thanks.html')
+      .catch(err => alert('Грешка при изпращане: '+err));
+  });
+})();
+</script>
 </body>
 </html>
