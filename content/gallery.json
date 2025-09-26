@@ -1,3 +1,16 @@
 {
-  "items": []
+  "items": [
+    {
+      "image": "/assets/uploads/image00001.jpeg"
+    },
+    {
+      "image": "/assets/uploads/image00007.jpeg"
+    },
+    {
+      "image": "/assets/uploads/image00004.jpeg"
+    },
+    {
+      "image": "/assets/uploads/image00002.jpeg"
+    }
+  ]
 }
